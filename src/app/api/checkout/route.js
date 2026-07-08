@@ -6,9 +6,9 @@ export async function POST(request) {
   try {
     const appId = process.env.NEXT_PUBLIC_CASHFREE_APP_ID;
     const secretKey = process.env.CASHFREE_SECRET_KEY;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
-    console.log(`[Checkout API] Received NEXT_PUBLIC_SITE_URL: "${siteUrl}"`);
+    console.log("SITE_URL:", process.env.NEXT_PUBLIC_SITE_URL);
 
     if (!appId || !secretKey) {
       console.error("ERROR: Missing Cashfree environment variables.");
@@ -18,7 +18,7 @@ export async function POST(request) {
       );
     }
 
-    if (!siteUrl) {
+    if (!SITE_URL) {
       console.error("ERROR: NEXT_PUBLIC_SITE_URL environment variable is missing or undefined.");
       return NextResponse.json(
         { error: "Server Configuration Error: NEXT_PUBLIC_SITE_URL is not set." }, 
@@ -34,25 +34,27 @@ export async function POST(request) {
 
     // Validate URL to prevent Cashfree HTTP errors in Production
     if (!isSandbox) {
-      if (!siteUrl.startsWith('https://') || siteUrl.includes('localhost')) {
-        console.error(`ERROR: Invalid NEXT_PUBLIC_SITE_URL (${siteUrl}). Cashfree Production requires HTTPS.`);
+      if (!SITE_URL.startsWith('https://') || SITE_URL.includes('localhost')) {
+        console.error(`ERROR: Invalid NEXT_PUBLIC_SITE_URL (${SITE_URL}). Cashfree Production requires HTTPS.`);
         return NextResponse.json(
           { error: "Cashfree Production requires a valid HTTPS URL (NEXT_PUBLIC_SITE_URL). Localhost is not allowed." }, 
           { status: 400 }
         );
       }
     } else {
-      if (!siteUrl.startsWith('https://') || siteUrl.includes('localhost')) {
-        console.warn(`WARNING: You are using ${siteUrl}. Cashfree Production requires HTTPS. Localhost is permitted in Sandbox, but some Cashfree features may still reject HTTP.`);
+      if (!SITE_URL.startsWith('https://') || SITE_URL.includes('localhost')) {
+        console.warn(`WARNING: You are using ${SITE_URL}. Cashfree Production requires HTTPS. Localhost is permitted in Sandbox, but some Cashfree features may still reject HTTP.`);
       }
     }
       
     console.log(`Environment: ${isSandbox ? 'SANDBOX' : 'PRODUCTION'}`);
     console.log(`API URL: ${cashfreeApiUrl}`);
-    console.log(`Resolved Return URL Base: ${siteUrl}`);
 
     const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
     console.log(`Generated Order ID: ${orderId}`);
+
+    const return_url = `${SITE_URL}/thank-you?order_id={order_id}`;
+    console.log("RETURN_URL:", return_url);
 
     const orderPayload = {
       order_id: orderId,
@@ -64,7 +66,7 @@ export async function POST(request) {
         customer_email: "customer@example.com"
       },
       order_meta: {
-        return_url: `${siteUrl}/thank-you?order_id={order_id}`,
+        return_url: return_url,
       }
     };
 
