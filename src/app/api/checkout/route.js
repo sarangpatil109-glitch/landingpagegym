@@ -3,6 +3,11 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   console.log("========== CASHFREE CHECKOUT API INITIALIZED ==========");
   
+  console.log({
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    NODE_ENV: process.env.NODE_ENV,
+  });
+
   try {
     const appId = process.env.NEXT_PUBLIC_CASHFREE_APP_ID;
     const secretKey = process.env.CASHFREE_SECRET_KEY;
