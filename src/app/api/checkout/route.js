@@ -9,6 +9,6 @@ export async function GET() {
   
   // For now, we simulate a successful payment and redirect to the thank-you page
   
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   return NextResponse.redirect(`${baseUrl}/thank-you`);
 }
