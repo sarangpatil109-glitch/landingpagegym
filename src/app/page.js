@@ -30,16 +30,52 @@ const trustItems = [
 
 export default function Home() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
   const hasPaymentGateway = !!process.env.NEXT_PUBLIC_CASHFREE_APP_ID;
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!hasPaymentGateway) return;
     
     setIsCheckingOut(true);
-    // Simulate secure checkout initialization
-    setTimeout(() => {
-      window.location.href = '/api/checkout';
-    }, 1500);
+    setCheckoutError('');
+    console.log("========== CHECKOUT STARTED ==========");
+    console.log("1. Button Clicked");
+    
+    try {
+      console.log("2. Calling /api/checkout API...");
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+      });
+      
+      const data = await res.json();
+      console.log("3. API Response:", data);
+      
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to initialize checkout");
+      }
+      
+      console.log("4. Loading Cashfree SDK...");
+      const { load } = await import('@cashfreepayments/cashfree-js');
+      
+      const isSandbox = process.env.NEXT_PUBLIC_CASHFREE_APP_ID?.includes('TEST') || process.env.NODE_ENV !== 'production';
+      const cashfree = await load({
+        mode: isSandbox ? "sandbox" : "production"
+      });
+      
+      console.log("5. Initializing Cashfree Modal Checkout with payment_session_id:", data.payment_session_id);
+      
+      await cashfree.checkout({
+        paymentSessionId: data.payment_session_id
+      });
+      
+      console.log("6. Checkout initialized successfully.");
+      
+    } catch (err) {
+      console.error("CHECKOUT ERROR:", err);
+      setCheckoutError(err.message || 'An error occurred during checkout');
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   return (
@@ -425,6 +461,9 @@ export default function Home() {
             </button>
             {!hasPaymentGateway && (
               <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '1rem', fontWeight: 500 }}>Payment gateway is not configured.</p>
+            )}
+            {checkoutError && (
+              <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '1rem', fontWeight: 500 }}>{checkoutError}</p>
             )}
           </div>
           
