@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { CheckCircle, ArrowRight, Zap, Users, Globe, Smartphone, Shield, Clock, TrendingUp, Link, SmartphoneNfc, LayoutDashboard, Database, SunMoon, Rocket, XCircle, RefreshCw, Headset, Download, CreditCard, MessageCircle, BarChart3, Cloud, Lock, Infinity } from 'lucide-react';
+import { CheckCircle, ArrowRight, Zap, Users, Globe, Smartphone, Shield, Clock, TrendingUp, Link, SmartphoneNfc, LayoutDashboard, SunMoon, Rocket, XCircle, RefreshCw, Headset, Download, CreditCard, MessageCircle, BarChart3, Cloud, Lock, Infinity } from 'lucide-react';
 import styles from './page.module.css';
 
 const fadeUp = {
@@ -29,70 +28,19 @@ const trustItems = [
 ];
 
 export default function Home() {
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [checkoutError, setCheckoutError] = useState('');
-  const hasPaymentGateway = !!process.env.NEXT_PUBLIC_CASHFREE_APP_ID;
-
-  const handleCheckout = async () => {
-    if (!hasPaymentGateway) return;
-    
-    setIsCheckingOut(true);
-    setCheckoutError('');
-    console.log("========== CHECKOUT STARTED ==========");
-    console.log("1. Button Clicked");
-    
-    try {
-      console.log("2. Calling /api/checkout API...");
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-      });
-      
-      const data = await res.json();
-      console.log("3. API Response:", data);
-      
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to initialize checkout");
-      }
-      
-      console.log("4. Loading Cashfree SDK...");
-      const { load } = await import('@cashfreepayments/cashfree-js');
-      
-      const isSandbox = process.env.NEXT_PUBLIC_CASHFREE_APP_ID?.includes('TEST') || process.env.NODE_ENV !== 'production';
-      const cashfree = await load({
-        mode: isSandbox ? "sandbox" : "production"
-      });
-      
-      console.log("5. Initializing Cashfree Modal Checkout with payment_session_id:", data.payment_session_id);
-      
-      await cashfree.checkout({
-        paymentSessionId: data.payment_session_id
-      });
-      
-      console.log("6. Checkout initialized successfully.");
-      
-    } catch (err) {
-      console.error("CHECKOUT ERROR:", err);
-      setCheckoutError(err.message || 'An error occurred during checkout');
-    } finally {
-      setIsCheckingOut(false);
-    }
-  };
-
   return (
     <main className={styles.main}>
       {/* Floating WhatsApp Button */}
-      <a href="https://wa.me/917559368068" target="_blank" rel="noopener noreferrer" className={`${styles.floatingWhatsapp} ${styles.bounce}`} aria-label="Chat directly with our team on WhatsApp">
+      <a href="https://wa.me/917559368068" target="_blank" rel="noopener noreferrer" className={`${styles.floatingWhatsapp} ${styles.bounce}`} aria-label="💬 WhatsApp Sales">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.1 2.9C18.6.4 15.3-.9 11.8-.9 5.3-.9 0 4.4 0 10.9c0 2.2.6 4.3 1.6 6.1L.1 23.9l7.1-1.9c1.8.9 3.8 1.4 5.8 1.4 6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.2-3.7-8.7zm-9.3 20.3c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.8 1 1-3.7-.2-.4c-1-1.6-1.5-3.5-1.5-5.4 0-5.5 4.5-10 10.1-10 2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1-.1 5.4-4.6 9.9-10 10.1z"></path><path d="M17.4 14.1c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-1-1-1.2-1.4-1.4-1.7-.2-.3 0-.4.1-.6.1-.1.3-.3.5-.5.2-.2.3-.3.4-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7 0 1.6 1.1 3.2 1.3 3.4.2.3 2.3 3.5 5.6 4.9.8.3 1.4.5 1.9.6.8.3 1.5.2 2 .1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.4-.3-.7-.5z"></path></svg>
       </a>
 
       {/* Navbar */}
       <nav className={`${styles.glass} container`} style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.05em' }}>Gym<span className="gradient-text-primary">OS</span></div>
-        {hasPaymentGateway ? (
-          <a href="#pricing" className="btn-primary" aria-label="Buy Now for ₹1499">Buy Now ₹1499</a>
-        ) : (
-          <button className="btn-primary" disabled aria-label="Payment gateway is not configured" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Payment gateway is not configured.">Buy Now ₹1499</button>
-        )}
+        <a href="https://wa.me/917559368068?text=Hi%20GymOS%20Team!%20I%20am%20interested%20in%20purchasing%20GymOS.%20Please%20share%20a%20demo." target="_blank" rel="noopener noreferrer" className="btn-primary" aria-label="Chat with Sales Executive">
+          💬 Chat with Sales Executive
+        </a>
       </nav>
 
       {/* Hero Section */}
@@ -129,17 +77,34 @@ export default function Home() {
           >
             India's Smartest Gym Management Software that automatically creates a personal website for every gym member in just 3 seconds.
           </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ delay: 0.3 }}
+            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: '16px', display: 'inline-block', marginBottom: '2rem', textAlign: 'left' }}
+          >
+            <div style={{ color: '#ef4444', fontWeight: 700, fontSize: '0.875rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              🔥 LAUNCH OFFER
+            </div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.25rem' }}>₹1499 <span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 400 }}>One-Time Payment</span></div>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '1rem' }}>No Monthly Charges Ever</div>
+            
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem' }}>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={14} color="#25D366" /> Unlimited Member Websites</li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={14} color="#25D366" /> WhatsApp Automation</li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={14} color="#25D366" /> 1 Year FREE Support</li>
+            </ul>
+          </motion.div>
           
           <motion.div 
             className={styles.heroCta}
             initial="hidden" animate="visible" variants={fadeUp} transition={{ delay: 0.2 }}
           >
             <a href="https://maingymsoftwere.vercel.app/dashboard" target="_blank" rel="noopener noreferrer" className="btn-secondary" aria-label="Watch GymOS Demo">Watch Demo</a>
-            {hasPaymentGateway ? (
-              <a href="#pricing" className="btn-primary" aria-label="Buy Now for ₹1499" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Buy Now ₹1499 <ArrowRight size={18} /></a>
-            ) : (
-              <button className="btn-primary" disabled aria-label="Payment gateway is not configured" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', opacity: 0.5, cursor: 'not-allowed' }} title="Payment gateway is not configured.">Buy Now ₹1499 <ArrowRight size={18} /></button>
-            )}
+            <a href="https://wa.me/917559368068?text=Hi%20GymOS%20Team!%20I%20am%20interested%20in%20purchasing%20GymOS.%20Please%20share%20a%20demo." target="_blank" rel="noopener noreferrer" className="btn-primary" aria-label="Chat with Sales Executive" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              💬 Chat with Sales Executive <ArrowRight size={18} />
+            </a>
           </motion.div>
           
           <motion.div
@@ -443,28 +408,23 @@ export default function Home() {
               ))}
             </ul>
             
-            <button 
-              onClick={handleCheckout} 
-              disabled={isCheckingOut || !hasPaymentGateway}
+            <a 
+              href="https://wa.me/917559368068?text=Hi%20GymOS%20Team!%20I%20am%20interested%20in%20purchasing%20GymOS.%20Please%20share%20a%20demo."
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary" 
-              aria-label="Proceed to Cashfree Checkout"
-              title={!hasPaymentGateway ? "Payment gateway is not configured." : ""}
-              style={{ display: 'block', width: '100%', fontSize: '1.125rem', padding: '1rem', border: 'none', cursor: (!hasPaymentGateway || isCheckingOut) ? 'not-allowed' : 'pointer', opacity: (!hasPaymentGateway || isCheckingOut) ? 0.6 : 1 }}
+              style={{ display: 'block', width: '100%', fontSize: '1.125rem', padding: '1rem', border: 'none', textAlign: 'center' }}
             >
-              {isCheckingOut ? (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  <RefreshCw size={20} className={styles.spin} /> Initializing Secure Checkout...
-                </span>
-              ) : (
-                'Buy Now'
-              )}
-            </button>
-            {!hasPaymentGateway && (
-              <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '1rem', fontWeight: 500 }}>Payment gateway is not configured.</p>
-            )}
-            {checkoutError && (
-              <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '1rem', fontWeight: 500 }}>{checkoutError}</p>
-            )}
+              💬 Chat with Sales Executive
+            </a>
+
+            <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+              <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Interested in GymOS?</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1rem' }}>
+                Our Sales Executive will personally guide you through the software, answer all your questions and help you get started.
+              </p>
+              <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--primary)' }}>Launch Price: ₹1499 One-Time Only</p>
+            </div>
           </div>
           
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
@@ -493,17 +453,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* New Sales Section */}
       <section className={styles.section}>
         <div className="container">
-          <div className={styles.contactSection}>
-            <h2 className={styles.contactTitle}>Need a Live Demo?</h2>
-            <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>Talk directly with our team.</p>
-            <a href="https://wa.me/917559368068" target="_blank" rel="noopener noreferrer" className="btn-secondary" aria-label="Chat with our sales team on WhatsApp" style={{ background: 'white', color: 'var(--primary)', border: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.125rem' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825.001 6.938 3.113 6.938 6.938-.001 3.825-3.114 6.938-6.938 6.938z"/></svg>
-              Chat on WhatsApp
-            </a>
+          <h2 className={styles.sectionTitle} style={{ marginBottom: '1rem' }}>Need Help Before Purchasing?</h2>
+          <p style={{ textAlign: 'center', fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3rem' }}>Talk directly with our Sales Executive.</p>
+          
+          <div className={styles.featuresGrid}>
+            {[
+              { icon: '🎥', title: 'Live Demo', desc: 'See the complete software before purchasing.' },
+              { icon: '💬', title: 'Instant WhatsApp Support', desc: 'Get all your questions answered.' },
+              { icon: '⚙', title: 'Free Installation', desc: 'We will help you install GymOS.' },
+              { icon: '💰', title: 'Only ₹1499 One-Time', desc: 'No Monthly Charges.' }
+            ].map((feat, i) => (
+              <motion.div 
+                key={i} 
+                className={styles.featureCard}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                style={{ textAlign: 'center' }}
+              >
+                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{feat.icon}</div>
+                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 600 }}>{feat.title}</h3>
+                <p style={{ color: 'var(--text-muted)' }}>{feat.desc}</p>
+              </motion.div>
+            ))}
           </div>
+          
+          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+            <a href="https://wa.me/917559368068?text=Hi%20GymOS%20Team!%20I%20am%20interested%20in%20purchasing%20GymOS.%20Please%20share%20a%20demo." target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ display: 'inline-flex', padding: '1rem 2rem', fontSize: '1.125rem' }}>💬 Chat with Sales Executive</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className={styles.section} style={{ background: 'linear-gradient(180deg, var(--bg-dark) 0%, rgba(37,99,235,0.1) 100%)', borderTop: '1px solid rgba(255,255,255,0.05)', paddingBottom: '6rem' }}>
+        <div className="container" style={{ textAlign: 'center', maxWidth: '800px' }}>
+          <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)', fontWeight: 800, marginBottom: '1.5rem' }}>Ready to Digitize Your Gym?</h2>
+          <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '2rem' }}>
+            Join hundreds of gym owners using GymOS to manage members, attendance, payments, trainers, inventory, reports and automatic member websites.
+          </p>
+          <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.75rem 1.5rem', borderRadius: '99px', marginBottom: '2rem' }}>
+            <span style={{ color: '#ef4444', fontWeight: 700, marginRight: '0.5rem' }}>Launch Offer</span>
+            <span style={{ fontWeight: 600 }}>₹1499 One-Time Payment</span>
+          </div>
+          <br/>
+          <a href="https://wa.me/917559368068?text=Hi%20GymOS%20Team!%20I%20am%20interested%20in%20purchasing%20GymOS.%20Please%20share%20a%20demo." target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ display: 'inline-flex', padding: '1rem 3rem', fontSize: '1.25rem', marginBottom: '1rem' }}>💬 Chat with Sales Executive</a>
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Average Response Time: <span style={{ color: '#25D366', fontWeight: 600 }}>Under 5 Minutes</span></p>
         </div>
       </section>
 
