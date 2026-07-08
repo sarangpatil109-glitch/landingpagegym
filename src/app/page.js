@@ -40,28 +40,31 @@ export default function Home() {
             style={{ maxWidth: '900px', margin: '0 auto' }}
           >
             <motion.h1 className={styles.heroTitle} variants={fadeUp}>
-              🚀 India's First Gym Software That Automatically Creates a <span className="gradient-text-primary">Personal Website</span> for Every Member in Just 3 Seconds.
+              Complete Gym Management Software <br/><span className="gradient-text-primary">Built for Modern Gyms</span>
             </motion.h1>
             
-            <motion.p className={styles.heroSubtitle} variants={fadeUp} style={{ fontSize: '1.35rem' }}>
-              Manage attendance, memberships, payments, trainers, WhatsApp reminders and automatically generate a beautiful personal website for every gym member.
-              <br/><br/>
-              <span style={{ color: 'white', fontWeight: 600 }}>No coding. No technical knowledge. Everything in one software.</span>
+            <motion.p className={styles.heroSubtitle} variants={fadeUp} style={{ fontSize: '1.35rem', marginBottom: '1rem' }}>
+              Everything you need to run your gym from one dashboard.
             </motion.p>
 
-            <motion.div variants={fadeUp} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', padding: '1.5rem 2.5rem', borderRadius: '16px', display: 'inline-block', marginBottom: '2.5rem', textAlign: 'left', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
-              <div style={{ color: '#ef4444', fontWeight: 800, fontSize: '0.875rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', letterSpacing: '0.05em' }}>
-                <span className={styles.spin} style={{ display: 'inline-block' }}>🔥</span> LAUNCH OFFER
-              </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.25rem' }}>₹1499 <span style={{ fontSize: '1.25rem', color: 'var(--text-muted)', fontWeight: 500 }}>ONE-TIME PAYMENT</span></div>
-              <div style={{ color: 'var(--text-muted)', fontSize: '1rem', marginBottom: '1.5rem', fontWeight: 600 }}>NO MONTHLY CHARGES</div>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', fontSize: '0.95rem', fontWeight: 500 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={18} color="#25D366" /> Personal Website for Every Member</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={18} color="#25D366" /> Automatic WhatsApp Reminders</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={18} color="#25D366" /> Free Installation</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={18} color="#25D366" /> 1 Year Free Support</div>
-              </div>
+            <motion.div variants={fadeUp} className={styles.heroChipGrid}>
+              <div className={styles.heroChip}><Users size={16} color="#60a5fa" /> Unlimited Members</div>
+              <div className={styles.heroChip}><CreditCard size={16} color="#60a5fa" /> Payment Tracking</div>
+              <div className={styles.heroChip}><Clock size={16} color="#60a5fa" /> Membership Management</div>
+              <div className={styles.heroChip}><Smartphone size={16} color="#60a5fa" /> WhatsApp Reminders</div>
+              <div className={styles.heroChip}><Users size={16} color="#60a5fa" /> Trainer Management</div>
+              <div className={styles.heroChip}><BarChart3 size={16} color="#60a5fa" /> Reports & Analytics</div>
+              <div className={`${styles.heroChip} ${styles.heroChipFeatured}`}><Globe size={16} /> Personal Website For Every Member</div>
+              <div className={styles.heroChip}><Zap size={16} color="#60a5fa" /> Creates Website in 3 Seconds</div>
+              <div className={styles.heroChip}><SmartphoneNfc size={16} color="#60a5fa" /> Mobile Friendly</div>
+              <div className={styles.heroChip}><Shield size={16} color="#60a5fa" /> Secure Cloud Software</div>
+            </motion.div>
+
+            <motion.div variants={fadeUp} style={{ marginBottom: '2.5rem' }}>
+              <p style={{ fontSize: '1.125rem', color: 'var(--text-muted)' }}>
+                Everything included for just <span style={{ color: '#60a5fa', fontWeight: 800 }}>₹1499</span>. <br/>
+                No Monthly Charges. <span style={{ color: '#fff', fontWeight: 600 }}>Lifetime Ownership.</span>
+              </p>
             </motion.div>
             
             <motion.div className={styles.heroCta} variants={fadeUp}>
