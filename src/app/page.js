@@ -165,6 +165,82 @@ export default function Home() {
         </div>
       </section>
 
+      {/* NEW CRM SECTION */}
+      <section className={styles.section} style={{ background: 'rgba(255,255,255,0.01)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="container">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+            <h2 className={styles.sectionTitle} style={{ marginBottom: '1rem' }}>Everything Your Gym Needs — <span className="gradient-text-primary">In One Software</span></h2>
+            <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)' }}>
+              One-time payment of ₹1499. No monthly charges. Everything included.
+            </p>
+          </motion.div>
+
+          <div className={styles.crmGrid}>
+            {[
+              {
+                icon: <Users size={20} />, title: 'Member Management',
+                items: ['Register unlimited members', 'Attendance', 'Membership expiry', 'Profile management']
+              },
+              {
+                icon: <CreditCard size={20} />, title: 'Payment Management',
+                items: ['Payment tracking', 'Pending payments', 'Renewals', 'Payment history']
+              },
+              {
+                icon: <Smartphone size={20} />, title: 'WhatsApp Automation',
+                items: ['Expiry reminders', 'Payment reminders', 'Instant communication']
+              },
+              {
+                icon: <Globe size={20} />, title: 'Personal Website For Every Member', featured: true,
+                items: ['Automatically generated in 3 seconds', 'Unique profile link', 'Attendance & Membership status', 'Workout plan & Shareable profile']
+              },
+              {
+                icon: <BarChart3 size={20} />, title: 'Dashboard & Reports',
+                items: ['Daily stats', 'Revenue', 'Member analytics', 'Growth reports']
+              },
+              {
+                icon: <Users size={20} />, title: 'Trainer Management',
+                items: ['Assign trainers', 'Workout plans', 'Progress tracking']
+              },
+              {
+                icon: <Clock size={20} />, title: 'Membership Management',
+                items: ['Renewals', 'Expiry alerts', 'Package management']
+              },
+              {
+                icon: <Infinity size={20} />, title: 'Unlimited Everything',
+                items: ['Unlimited members & websites', 'Free updates & installation', '1 year support']
+              }
+            ].map((card, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`${styles.crmCard} ${card.featured ? styles.crmCardFeatured : ''}`}
+              >
+                <div className={styles.crmHeader}>
+                  <div className={styles.crmIcon}>{card.icon}</div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>{card.title}</h3>
+                </div>
+                <ul className={styles.crmList}>
+                  {card.items.map((item, idx) => (
+                    <li key={idx}><CheckCircle size={16} color="rgba(255,255,255,0.3)" style={{ marginTop: '2px', flexShrink: 0 }} /> <span>{item}</span></li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}
+            style={{ textAlign: 'center', marginTop: '2rem' }}
+          >
+            <div style={{ color: '#f59e0b', fontSize: '1.5rem', letterSpacing: '0.25rem', marginBottom: '0.5rem' }}>★★★★★</div>
+            <div style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Trusted by Growing Gyms Across India</div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* SECTION 3 - MEMBER WEBSITE SECTION */}
       <section id="usp" className={`${styles.section} ${styles.uspSection}`} style={{ background: 'var(--bg-dark)' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: '900px' }}>
