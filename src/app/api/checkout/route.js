@@ -21,6 +21,21 @@ export async function POST(request) {
     const cashfreeApiUrl = isSandbox 
       ? 'https://sandbox.cashfree.com/pg/orders' 
       : 'https://api.cashfree.com/pg/orders';
+
+    // Validate URL to prevent Cashfree HTTP errors in Production
+    if (!isSandbox) {
+      if (!siteUrl.startsWith('https://') || siteUrl.includes('localhost')) {
+        console.error(`ERROR: Invalid NEXT_PUBLIC_SITE_URL (${siteUrl}). Cashfree Production requires HTTPS.`);
+        return NextResponse.json(
+          { error: "Cashfree Production requires a valid HTTPS URL (NEXT_PUBLIC_SITE_URL). Localhost is not allowed." }, 
+          { status: 400 }
+        );
+      }
+    } else {
+      if (!siteUrl.startsWith('https://') || siteUrl.includes('localhost')) {
+        console.warn(`WARNING: You are using ${siteUrl}. Cashfree Production requires HTTPS. Localhost is permitted in Sandbox, but some Cashfree features may still reject HTTP.`);
+      }
+    }
       
     console.log(`Environment: ${isSandbox ? 'SANDBOX' : 'PRODUCTION'}`);
     console.log(`API URL: ${cashfreeApiUrl}`);
