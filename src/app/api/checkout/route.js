@@ -6,12 +6,22 @@ export async function POST(request) {
   try {
     const appId = process.env.NEXT_PUBLIC_CASHFREE_APP_ID;
     const secretKey = process.env.CASHFREE_SECRET_KEY;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+    console.log(`[Checkout API] Received NEXT_PUBLIC_SITE_URL: "${siteUrl}"`);
 
     if (!appId || !secretKey) {
       console.error("ERROR: Missing Cashfree environment variables.");
       return NextResponse.json(
         { error: "Payment gateway is not configured on the server." }, 
+        { status: 500 }
+      );
+    }
+
+    if (!siteUrl) {
+      console.error("ERROR: NEXT_PUBLIC_SITE_URL environment variable is missing or undefined.");
+      return NextResponse.json(
+        { error: "Server Configuration Error: NEXT_PUBLIC_SITE_URL is not set." }, 
         { status: 500 }
       );
     }
@@ -39,6 +49,7 @@ export async function POST(request) {
       
     console.log(`Environment: ${isSandbox ? 'SANDBOX' : 'PRODUCTION'}`);
     console.log(`API URL: ${cashfreeApiUrl}`);
+    console.log(`Resolved Return URL Base: ${siteUrl}`);
 
     const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
     console.log(`Generated Order ID: ${orderId}`);
